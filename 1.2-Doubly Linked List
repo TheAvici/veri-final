@@ -1,20 +1,17 @@
-A. Temel Yapı
+# 1. Temel Yapı
+
+Aşağıda temel yapı kodu bulunmaktadır:
 
 ```cpp
 #include <iostream>
 using namespace std;
 
-struct DNode {
+struct Node {
     int data;
-    DNode* next;
-    DNode* prev; // Geriye giden yol
-
-    DNode(int val) {
+    Node* next;
+    
+    Node(int val) {
         data = val;
         next = nullptr;
-        prev = nullptr;
     }
 };
-```
-
-adsafasfsa
