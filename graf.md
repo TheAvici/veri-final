@@ -1,4 +1,5 @@
 -1. Temel Yapı (Komşuluk Listesi)
+```cpp
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -37,10 +38,12 @@ public:
     int getV() { return V; }
     vector<vector<Edge>>& getAdj() { return adj; }
 };
-
+```
 
 -2. Gezinme Algoritmaları (Traversal)
+
 --A. BFS (Breadth-First Search) - Sığ Öncelikli Arama
+```cpp
 void BFS(Graph& g, int startNode) {
     int V = g.getV();
     vector<bool> visited(V, false);
@@ -67,8 +70,9 @@ void BFS(Graph& g, int startNode) {
     }
     cout << endl;
 }
-
+```
 --B. DFS (Depth-First Search) - Derin Öncelikli Arama
+```cpp
 // Yardımcı rekürsif fonksiyon
 void DFSUtil(int u, vector<bool>& visited, vector<vector<Edge>>& adj) {
     visited[u] = true;
@@ -88,11 +92,12 @@ void DFS(Graph& g, int startNode) {
     DFSUtil(startNode, visited, g.getAdj());
     cout << endl;
 }
-
+```
 
 -3. Dijkstra Algoritması (En Kısa Yol)
-"A'dan diğer tüm düğümlere en kısa mesafeyi bulun"
 
+"A'dan diğer tüm düğümlere en kısa mesafeyi bulun"
+```cpp
 typedef pair<int, int> pii; // {mesafe, düğüm_id}
 
 void Dijkstra(Graph& g, int src) {
@@ -139,8 +144,9 @@ void Dijkstra(Graph& g, int src) {
         cout << i << " \t " << (dist[i] == INT_MAX ? -1 : dist[i]) << endl;
     }
 }
-
+```
 -4. Bağlantılı Bileşen Sayısı (Connected Components)
+```cpp
 	int countConnectedComponents(Graph& g) {
     int V = g.getV();
     vector<bool> visited(V, false);
@@ -157,8 +163,10 @@ void Dijkstra(Graph& g, int src) {
     }
     return count;
 }
+```
 
 -5. Döngü Tespiti (Cycle Detection)
+```cpp
 bool isCyclicUtil(int u, vector<bool>& visited, int parent, vector<vector<Edge>>& adj) {
     visited[u] = true;
 
@@ -189,4 +197,5 @@ bool isCyclic(Graph& g) {
     return false;
 }
 
+```
 
