@@ -1,10 +1,17 @@
 Bu kod şunları içerir:
+
 1- Temel Yapı: Node sınıfı.
+
 2- Dolaşma (Traversal): Preorder, Inorder, Postorder, Level Order (BFS) .
+
 3- Analiz: Yükseklik (Height), Eleman Sayısı, Yaprak Kontrolü.
+
 4- Tür Kontrolleri: Full, Complete, Perfect .
+
 5- BST İşlemleri: Ekleme (Insert), Arama (Search), Min/Max Bulma .
+
 6- AVL (Dengeleme): Rotasyonlar ve Dengeli Ekleme .
+
 
 ```cpp
 #include <iostream>
