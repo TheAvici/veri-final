@@ -1,0 +1,175 @@
+-1. Temel Sıralama Algoritmaları (O(N^2))
+--A. Insertion Sort (Eklemeli Sıralama)
+Kart destesi dizer gibi çalışır.
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void yazdir(vector<int>& arr) {
+    for (int i : arr) cout << i << " ";
+    cout << endl;
+}
+
+void insertionSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+
+        // Key'den büyük olanları bir sağa kaydır
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+        
+        // Trace için her adımı yazdır (Sınavda hoca isterse)
+        cout << "Adim " << i << ": ";
+        yazdir(arr);
+    }
+}
+
+
+--B. Selection Sort (Seçmeli Sıralama)
+En küçüğü bul, başa koy.
+
+void selectionSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; i++) {
+        int min_idx = i;
+        // En küçüğü ara
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[min_idx])
+                min_idx = j;
+        }
+        // Bulunan en küçüğü i. sıradaki ile takas et
+        swap(arr[min_idx], arr[i]);
+        
+        cout << "Adim " << i+1 << ": ";
+        yazdir(arr);
+    }
+}
+
+--C. Bubble Sort (Kabarcık Sıralama)
+Yan yana ikilileri kıyasla, büyüğü sona it.
+
+void bubbleSort(vector<int>& arr) {
+    int n = arr.size();
+    bool swapped;
+    for (int i = 0; i < n - 1; i++) {
+        swapped = false;
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+                swapped = true;
+            }
+        }
+        // Eğer hiç takas olmadıysa dizi zaten sıralıdır (Optimizasyon)
+        if (!swapped) break;
+        
+        cout << "Gecis " << i+1 << ": ";
+        yazdir(arr);
+    }
+}
+
+
+-2. Gelişmiş Sıralama Algoritmaları ($O(N \log N)$)
+--A. Merge Sort (Birleştirmeli Sıralama) - Divide & Conquer
+Diziyi ikiye böl, sırala, birleştir.
+
+// İki alt diziyi birleştirme fonksiyonu
+void merge(vector<int>& arr, int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    // Geçici diziler
+    vector<int> L(n1), R(n2);
+
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Kalanları ekle
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+
+// Ana Fonksiyon
+void mergeSort(vector<int>& arr, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
+
+--B. Quick Sort (Hızlı Sıralama) - Pivot Mantığı
+Genelde son elemanı pivot seçen versiyon kullanılır.
+
+// Parçalama (Partition) Fonksiyonu
+int partition(vector<int>& arr, int low, int high) {
+    int pivot = arr[high]; // Pivot sondaki eleman
+    int i = (low - 1); // Küçük elemanların indeksi
+
+    for (int j = low; j <= high - 1; j++) {
+        // Eğer eleman pivottan küçükse i'yi ilerlet ve takasla
+        if (arr[j] < pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+
+// Ana Fonksiyon
+void quickSort(vector<int>& arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high); // Partition Index
+
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+--C. Shell Sort (Kabuk Sıralaması)
+
+void shellSort(vector<int>& arr) {
+    int n = arr.size();
+    // Gap (aralık) n/2'den başlar, yarıya düşerek 1 olana kadar gider
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i += 1) {
+            int temp = arr[i];
+            int j;
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)
+                arr[j] = arr[j - gap];
+            arr[j] = temp;
+        }
+    }
+}
+
+Algoritma,		Ortalama Süre,		En Kötü Süre,	Alan,		Kararlı mı?,	Not
+Bubble Sort,		O(N2),			O(N2),			O(1),		Evet,			En yavaşı.
+Insertion Sort,		O(N2),			O(N2),			O(1),		Evet,			Küçük verilerde ve neredeyse sıralı dizilerde çok hızlıdır.
+Selection Sort,		O(N2),			O(N2),			O(1),		Hayır,			Her zaman aynı sayıda işlem yapar.
+Merge Sort,			O(NlogN),		O(NlogN),		O(N),		Evet,			Ekstra bellek ister ama garantili hızlıdır.
+Quick Sort,			O(NlogN),		O(N2),			O(logN),	Hayır,			Genelde en hızlısıdır ama en kötü durumda yavaşlar.
+
+
+
