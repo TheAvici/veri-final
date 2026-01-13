@@ -1,0 +1,17 @@
+A. Temel Yapı
+
+```cpp
+#include <iostream>
+using namespace std;
+
+struct DNode {
+    int data;
+    DNode* next;
+    DNode* prev; // Geriye giden yol
+
+    DNode(int val) {
+        data = val;
+        next = nullptr;
+        prev = nullptr;
+    }
+};
