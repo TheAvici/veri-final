@@ -253,7 +253,35 @@ void KruskalMST(int V, vector<EdgeTuple>& edges) {
 
 ```
 
+4. İleri Seviye / Ekstra Algoritmalar (Topolojik Sıralama)
 
+```cpp
+// --- 7. Topolojik Sıralama (DFS Tabanlı) ---
+// Bir işi yapmadan önce diğerini bitirme zorunluluğu olan problemler için[cite: 1346].
+void TopologicalSortHelper(int v, vector<bool>& visited, stack<int>& Stack, const vector<vector<Edge>>& adj) {
+    visited[v] = true;
+    for (auto& edge : adj[v]) {
+        if (!visited[edge.dest])
+            TopologicalSortHelper(edge.dest, visited, Stack, adj);
+    }
+    Stack.push(v); // İşi biten stack'e atılır
+}
 
+void TopologicalSort(int V, const vector<vector<Edge>>& adj) {
+    stack<int> Stack;
+    vector<bool> visited(V, false);
 
+    for (int i = 0; i < V; i++) {
+        if (!visited[i])
+            TopologicalSortHelper(i, visited, Stack, adj);
+    }
+
+    cout << "Topolojik Siralama: ";
+    while (!Stack.empty()) {
+        cout << Stack.top() << " ";
+        Stack.pop();
+    }
+    cout << endl;
+}
+```
 
