@@ -2,7 +2,6 @@
 
 Aşağıda temel yapı kodu bulunmaktadır:
 
-```cpp
 #include <iostream>
 using namespace std;
 
